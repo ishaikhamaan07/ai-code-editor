@@ -1,22 +1,14 @@
 import React from 'react'
-import { auth, googleProvider } from '../firebase'
-import { signInWithPopup } from 'firebase/auth'
-import { login } from './features/login'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Dashboard from './pages/Dashboard'
 
-const App = () => {
-
-  
-
-  const handleLogin = async () => {
-    const result = await signInWithPopup(auth, googleProvider)
-    const token = await result.user.getIdToken()
-    const data = await login(token)
-    console.log(data)
-  }
+function App() {
   return (
-    <div>
-      <button onClick={handleLogin}>Continue with google</button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+         <Route path='/' element={<Dashboard/>}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

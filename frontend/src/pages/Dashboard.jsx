@@ -6,10 +6,12 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
 import NavBar from '../components/NavBar';
+import SideBar from '../components/SideBar';
 
 
 function Dashboard() {
         const [loading,setLoading] = useState(false)
+        const [activeSession, setActiveSession] = useState("projects")
         const dispatch = useDispatch()
         const {userData}=useSelector(state=>state.user)
   const handleLogin = async () => {
@@ -79,6 +81,9 @@ return (
 
                 <div className='relative flex min-h-0 flex-1 flex-col'>
                         <NavBar/>
+                        <div className='flex min-h-0 flex-1'>
+                                <SideBar activeSession={activeSession} setActiveSession={setActiveSession} />
+                        </div>
                 </div>
 
         </div>

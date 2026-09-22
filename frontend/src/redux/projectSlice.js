@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const projectSlice = createSlice({
     name: "user",
     initialState: {
-        projects:[],
-        starredProjects:[]
+        projects:[]
     },
     reducers: {
         setProjects: (state, action) => {
@@ -13,12 +12,18 @@ const projectSlice = createSlice({
         addNewProject: (state, action) => {
             state.projects.unshift(action.payload)
         },
-        setStarredProjects: (state, action) => {
-            state.starredProjects = action.payload
+        starProject:(state,action)=>{
+            const project=state.projects.find(p=>p._id==action.payload)
+            if(project){
+                project.starred=!project.starred
+            }
         },
+        setDeleteProject: (state, action) => {
+            state.projects = state.projects.filter(p=>p._id!=action.payload)
+        }
 
     }
 })
 
-export const { setProjects, addNewProject, setStarredProjects } = projectSlice.actions
-export default projectSlice.reducer
+export const { setProjects, addNewProject, starProject, setDeleteProject } = projectSlice.actions
+export default projectSlice.reducer 

@@ -9,7 +9,7 @@ import NavBar from '../components/NavBar';
 import SideBar from '../components/SideBar';
 import { Folder, Loader2, Plus } from 'lucide-react';
 import { getProjects, getStarredProjects } from '../features/project';
-import { setProjects, setStarredProjects } from '../redux/projectSlice';
+import { setProjects } from '../redux/projectSlice';
 import ProjectCard from '../components/ProjectCard';
 import CreateProjectModal from '../components/CreateProjectModal';
 
@@ -181,7 +181,7 @@ return (
                                         ): (
                                                 <div className= 'mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4'>
                                                         {projects.map((p,i) => (
-                                                        <ProjectCard/>
+                                                        <ProjectCard project={p}/>
                                                         ))}                                                        
                                                 </div>
                                         )}

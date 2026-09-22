@@ -1,8 +1,23 @@
 import { X } from "lucide-react"
 import { motion } from "motion/react"
-
+import { useState } from "react"
+import { createProject } from "../features/project"
+import { useDispatch } from "react-redux"
+import { addNewProject } from "../redux/projectSlice"
 function CreateProjectModal({openModal, onClose}) {
-  return (
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
+    const handleCreateProject = async () => {
+        setLoading(true)
+        const data = await createProject({name, description})
+        onClose()
+        dispatch(addNewProject(data))
+        setLoading(false)
+
+    }
+    return (
     <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
       <motion.div
       onClick={onClose}
@@ -61,6 +76,7 @@ function CreateProjectModal({openModal, onClose}) {
                     <div className='mb-2 block text-xs font-medium uppercase tracking-wide text-zinc-500 
                         dark:text-zinc-400'>Project Name</div>
                     <input
+                        onChange={(e) => setName(e.target.value)}
                         placeholder="My Awesome Project"
                         autoFocus
                         className="w-full rounded-xl border border-black/[0.08] bg-black/[0.02] px-4 py-3 text-[15px] text-zinc-900 placeholder-zinc-400 outline-none transition-all focus:border-sky-400/60 focus:bg-white focus:ring-4 focus:ring-sky-400/15 dark:border-white/[0.09] dark:bg-white/[0.04] dark:text-white dark:placeholder-zinc-500 dark:focus:bg-white/[0.06] dark:focus:ring-sky-400/10"                        
@@ -72,6 +88,7 @@ function CreateProjectModal({openModal, onClose}) {
                     <div className='mb-2 block text-xs font-medium uppercase tracking-wide text-zinc-500 
                         dark:text-zinc-400'>Description</div>
                     <textarea
+                        onChange={(e) => setDescription(e.target.value)}
                         rows={3}
                         placeholder="What is the project about?"
                         autoFocus
@@ -87,9 +104,12 @@ function CreateProjectModal({openModal, onClose}) {
                         Cancel
                     </button>
                     <button
-                    className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white shadow-[0_1px_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(0,0,0,0.4)] transition-all hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                        onClick={handleCreateProject}
+                        className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white shadow-[0_1px_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(0,0,0,0.4)] transition-all hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                    
                     >
-                        Create Project
+                        {loading?"Creating..." : "Create Project"}
+                        
                     </button>
                 </div>
 

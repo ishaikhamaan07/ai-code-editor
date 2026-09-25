@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { me } from './features/me'
 import { useDispatch } from 'react-redux'
 import { setUserData } from './redux/userSlice'
+import ProjectPage from './pages/ProjectPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -18,6 +19,7 @@ function App() {
     <BrowserRouter>
       <Routes>
          <Route path='/' element={<Dashboard/>}/>
+         <Route path='/project/:id' element={<ProjectPage/>}/>
       </Routes>
     </BrowserRouter>
   )

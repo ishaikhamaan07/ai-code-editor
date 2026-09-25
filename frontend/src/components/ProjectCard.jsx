@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { deleteProject, toggleStar } from "../features/project"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { setDeleteProject, starProject } from "../redux/projectSlice"
+import { setCurrentProject, setDeleteProject, starProject } from "../redux/projectSlice"
 function ProjectCard({project}) {
     const [ loadingStar, setLoadingStar ] = useState(false)
     const [ loadingDelete, setLoadingDelete ] = useState(false)
@@ -43,7 +43,8 @@ function ProjectCard({project}) {
             duration: 0.18,
             ease: "easeOut",
         }}
-        onClick={()=>{
+        onClick={()=> {
+            dispatch(setCurrentProject(project))
             navigate(`/project/${project?._id}`)
         }}
         className="group relative cursor-pointer rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:shadow-none dark:hover:border-white/[0.14] dark:hover:bg-white/[0.045]"
@@ -111,7 +112,7 @@ function ProjectCard({project}) {
                     whileTap={{
                         scale: 0.92,
                     }}
-                    onClick={(e) => {
+                    onClick={() => {
                         setConfirmDelete(true);
                     }}
                     className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[11px] text-zinc-300 opacity-0 transition-opacity hover:text-red-500 group-hover:opacity-100 dark:text-zinc-600 dark:hover:text-red-400"

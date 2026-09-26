@@ -1,3 +1,4 @@
+import ActivityBar from "../components/ActivityBar"
 import TopBar from "../components/TopBar"
 
 
@@ -10,7 +11,7 @@ function ProjectPage() {
 
       <div className="flex flex-1 overflow-hidden">
 
-        
+        <ActivityBar/>
 
 
       </div>

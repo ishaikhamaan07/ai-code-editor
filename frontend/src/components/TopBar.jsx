@@ -3,9 +3,9 @@ import { motion } from "motion/react"
 import { useState } from "react"
 import { Code2, Eye } from "lucide-react"
 
-function TopBar() {
+function TopBar({showPreview,setShowPreview}) {
     const {currentProject} = useSelector(state=>state.project)
-    const [showPreview, setShowPreview] = useState(false)
+    
   return (
     <div className='relative flex h-12 items-center justify-between border-b border-white/[0.06] bg-[#111113]/90 px-4 backdrop-blur-xl'>
       <div className="flex items-center gap-3">

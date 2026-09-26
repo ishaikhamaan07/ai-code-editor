@@ -64,10 +64,8 @@ function ActivityIcon({icon:Icon,label,active,onClick}){
 
 
 
-function ActivityBar() {
-    const [showExplorer, setShowExplorer] = useState(false)
-    const [showAiChat, setShowAiChat] = useState(false)
-    const [showTerminal, setShowTerminal] = useState(false)
+function ActivityBar({showAiChat,showExplorer,showTerminal,setShowAiChat,setShowExplorer,setShowTerminal}) {
+    
   return (
     <div className="flex w-14 shrink-0 flex-col items-center gap-2 border-r border-white/[0.06] bg-[#111113]/90 py-3">
       <ActivityIcon

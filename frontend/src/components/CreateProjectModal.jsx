@@ -4,6 +4,7 @@ import { useState } from "react"
 import { createProject } from "../features/project"
 import { useDispatch } from "react-redux"
 import { addNewProject } from "../redux/projectSlice"
+import { createRootFolder } from "../features/file"
 function CreateProjectModal({openModal, onClose}) {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
@@ -12,6 +13,7 @@ function CreateProjectModal({openModal, onClose}) {
     const handleCreateProject = async () => {
         setLoading(true)
         const data = await createProject({name, description})
+        await createRootFolder({projectId:data._id,projectName:data.name})
         onClose()
         dispatch(addNewProject(data))
         setLoading(false)

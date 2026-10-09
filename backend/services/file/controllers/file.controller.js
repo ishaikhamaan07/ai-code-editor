@@ -197,7 +197,10 @@ export const getTree = async (req, res) => {
             type:-1
         })
 
-        const tree = buildTree(files)                
+        
+
+        const tree = buildTree(files) 
+                   
 
         return res.status(200).json(tree)
 

@@ -2,7 +2,7 @@ import { api } from "../utils/axios";
 
 export const createProject = async ({ name, description }) => {
     try {
-        const {data} = await api.post("/api/project/",{name,description})
+        const {data} = await api.post("/api/project",{name,description})
         return data;
     } catch (error) {
         console.log(error);

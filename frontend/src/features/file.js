@@ -30,7 +30,7 @@ export const createFile = async ({projectId, name, parentId, content="", languag
     }
 }
 
-export const updateFile = async ({name,content,id}) => {
+export const updateFile = async ({name,content="",id}) => {
     try {
         const {data} = await api.post(`/api/file/update/${id}`,{name, content})
         return data;
@@ -66,6 +66,7 @@ export const getFile = async (id) => {
 export const getTree = async (projectId) => {
     try {
         const {data} = await api.get(`/api/file/tree/${projectId}`)
+        console.log(data)
         return data;
     } catch (error) {
         console.log(error);

@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@langchain/core": "^1.2.9",
+    "@langchain/openrouter": "^0.4.10",
     "axios": "1.20.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

@@ -22,6 +22,7 @@ app.use(morgan("dev"));
 app.use("/api/auth",proxy(process.env.AUTH_SERVICE))
 app.use("/api/project",protect,proxyWithHeader(process.env.PROJECT_SERVICE))
 app.use("/api/file",protect,proxyWithHeader(process.env.FILE_SERVICE))
+app.use("/api/ai",protect,proxyWithHeader(process.env.AI_SERVICE))
 app.get("/api/me",protect,getCurrentUser)
 app.get("/",(req,res)=>{
     res.json({message:"hello from gateway"});

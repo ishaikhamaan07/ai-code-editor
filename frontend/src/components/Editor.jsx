@@ -5,6 +5,28 @@ import { updateFile } from '../features/file'
 import { useEffect, useState } from "react"
 import MonacoEditor from '@monaco-editor/react';
 
+const getFileLanguage = (filename = "") => {
+    const lower = filename.toLowerCase();
+    const ext = lower.split(".").pop();
+
+    const languages = {
+        js: "javascript",
+        mjs: "javascript",
+        cjs: "javascript",
+        jsx: "javascript",
+        ts: "typescript",
+        tsx: "typescript",
+        json: "json",
+        css: "css",
+        html: "html",
+        py: "python",
+        yml: "yaml",
+        yaml: "yaml",
+        txt: "plaintext",
+    };
+
+    return languages[ext] || "plaintext";
+};
 
 function Editor({activeTab,
   openTabs,
@@ -167,7 +189,7 @@ const activeColor=getFileIcon(activeTab?.name).color
             <MonacoEditor
                 height="100%"
                 theme="vs-dark"
-                language={activeTab?.language || "plaintext"}
+                language={getFileLanguage(activeTab?.name)}
                 value={code}
                 onChange={(value) => setCode(value || "")}
                 options={{

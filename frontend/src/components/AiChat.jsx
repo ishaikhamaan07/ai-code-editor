@@ -1,4 +1,4 @@
-import { FileMinus, FilePen, FilePlus2, FolderPlus, Send, Sparkles } from "lucide-react"
+import { Bot, FileMinus, FilePen, FilePlus2, FolderPlus, Loader2, Send, Sparkles, User } from "lucide-react"
 import { useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 
@@ -33,7 +33,7 @@ const ToolBadge=({toolType,detail})=>{
 function AiChat({projectId, history=[], reloadTree}) {
     const [messages, setMessages] = useState([])
     const [message, setMessage]  = useState("")
-
+    const [loading, setLoading] = useState(false)
     const onEvent = async (toolType, data) => {
         if(toolType=="file_created"){
             reloadTree()
@@ -76,7 +76,12 @@ function AiChat({projectId, history=[], reloadTree}) {
 
     }
 const handleChat = async () => {
+    setLoading(true)
     try {
+        setMessages((prev)=>[...prev,{role:"user",content:message}])
+        let msg=message
+        setMessage("")
+        history=messages
         const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/ai/chat`,{
             method:"POST",
             headers:{
@@ -86,10 +91,12 @@ const handleChat = async () => {
             credentials:"include",
             body:JSON.stringify({
                 projectId,
-                message,
+                message: msg,
                 history
             })
         })
+
+        
 
         if(!response.ok){
             let msg="AI Request failed"
@@ -149,8 +156,9 @@ const handleChat = async () => {
                    }
 
                    onEvent(eventType, data)
+                   
 
-                   console.log("eventTpe", eventType)
+                   console.log("eventType", eventType)
                    console.log("data",data)
                 }
 
@@ -165,6 +173,8 @@ const handleChat = async () => {
     } catch (error) {
         console.log(error);
         return null
+    } finally {
+        setLoading(false)
     }
 }
   return (
@@ -192,12 +202,38 @@ const handleChat = async () => {
                         <ToolBadge toolType={msg.toolType} detail={msg.detail}/>
                     )
                 }
-
+                const isUser = msg.role == "user"
                 return (
-                    <></>
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.15 }}
+                        className={`flex items-start gap-2 ${isUser ? "flex-row-reverse" : ""}`}
+                    >
+                        <div
+                            className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${isUser? "bg-white/10 text-zinc-300":"bg-gradient-to-br from-sky-400 to-violet-400 text-white"}`}
+                        >
+                            {isUser?<User size={12}/>:<Bot size={12}/>}
+                        </div>
+
+                        <div className={`max-w-[85%] rounded-xl px-3 py-2 text-[13px] ${isUser? "bg-gradient-to-b from-sky-500 to-sky-600 text-white" : msg.error ? "border border-red-500/20 bg-red-500/10 text-red-300" :"border border-white/[0.06] bg-white/[0.03] text-zinc-300"}`}
+                        >
+                            <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+
+                        </div>
+
+                    </motion.div>
                 )
             })}
         </AnimatePresence>
+
+        {loading && (
+            <div className="flex items-center gap-2 pl-8 text-xs text-zinc-500">
+                <Loader2 size={13} className="animate-spin"/>
+                <span>AI Is Working...</span>
+            </div>
+        )}
 
 
       </div>
@@ -216,9 +252,10 @@ const handleChat = async () => {
                 onClick={handleChat}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    disabled={loading}
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-gradient-to-b from-sky-500 to-sky-600 text-white shadow-[0_1px_0_rgba(255,255,255,0.2)_inset] transition-opacity hover:from-sky-400 hover:to-sky-500 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                    <Send size={14}/>
+                    {loading?<Loader2 size={13} className="animate-spin"/>:<Send size={14} />}
                 </motion.button>
                     
             </div>

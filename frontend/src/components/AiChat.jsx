@@ -30,25 +30,30 @@ const ToolBadge=({toolType,detail})=>{
     )
 }
 
-function AiChat({projectId,history=[]}) {
+function AiChat({projectId, history=[], reloadTree}) {
     const [messages, setMessages] = useState([])
     const [message, setMessage]  = useState("")
 
     const onEvent = async (toolType, data) => {
         if(toolType=="file_created"){
+            reloadTree()
             setMessages((prev)=>[...prev,{role:"tool", toolType:"file_created", detail:data.file?.name}])
         }
         if(toolType=="file_updated"){
+            reloadTree()
             setMessages((prev)=>[...prev,{role:"tool", toolType:"file_updated", detail:data.file?.name}])
         }
         if(toolType=="file_deleted"){
+            reloadTree()
             setMessages((prev)=>[...prev,{role:"tool", toolType:"file_deleted", detail:data.file?.name}])
         }
         if(toolType=="folder_created"){
+            reloadTree()
             setMessages((prev)=>[...prev,{role:"tool", toolType:"folder_created", detail:data.folder?.name}])
         }
 
         if(toolType=="message"){
+            reloadTree()
             const content = data.content;
             if(!content)return;
             setMessages((prev)=>{

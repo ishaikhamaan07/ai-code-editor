@@ -1,6 +1,6 @@
 import { AIMessage, HumanMessage } from "@langchain/core/messages"
 import { graph } from "../graph/graph.js"
-import { deductCredits } from "../utils/deductCredits.js"
+
 
 const buildHistory = (history) => {
     if (!Array.isArray(history)) {
@@ -106,7 +106,6 @@ export const chat = async (req, res) => {
             }
         )
 
-        await deductCredits({userId,amount:10})
 
 
         let finalMessage = ""
@@ -179,7 +178,7 @@ export const chat = async (req, res) => {
 
 
     } catch (error) {
-        console.log("AI STRAM ERROR:", error)
+        console.log("AI STREAM ERROR:", error)
         if (disconnected) {
             return;
         }

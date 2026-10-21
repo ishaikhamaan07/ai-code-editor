@@ -87,7 +87,10 @@ function ProjectCard({project}) {
                     className="flex items-center gap-2"
                 >
                     <button
-                        onClick={()=>setConfirmDelete(false)}
+
+                        onClick={(e)=>{
+                            
+                            setConfirmDelete(false)}}
                         className="rounded-md px-2 py-1 text-[11px] text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                     >Cancel</button>
                     <button

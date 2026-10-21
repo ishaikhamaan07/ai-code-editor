@@ -16,16 +16,16 @@ import AiChat from "../components/AiChat"
 
 function ProjectPage() {
     const {id}=useParams()
-    const [showExplorer, setShowExplorer] = useState(false)
-    const [showAiChat, setShowAiChat] = useState(false)
-    const [showTerminal, setShowTerminal] = useState(false)
+    const [showExplorer, setShowExplorer] = useState(true)
+    const [showAiChat, setShowAiChat] = useState(true)
+    const [showTerminal, setShowTerminal] = useState(true)
     const [showPreview, setShowPreview] = useState(false)
     const [isPreviewFullScreen, setIsPreviewFullScreen] = useState(false)
     const [tree, setTree] = useState([])
     const [mobilePane, setMobilePane] = useState("explorer")
     const [openTabs, setOpenTabs] = useState([])
     const [activeTab, setActiveTab] = useState(null)
-    const [showBottomPanel, setShowBottomPanel] = useState(false)
+    const [showBottomPanel, setShowBottomPanel] = useState(true)
     const dispatch=useDispatch()
     const handleGetProject = async () => {
     const data = await getProjectById(id)

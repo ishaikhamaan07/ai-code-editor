@@ -1,7 +1,12 @@
 import { TerminalSquare, X } from "lucide-react"
 import { motion } from "motion/react"
+import Terminal from "./Terminal"
+import { useSelector } from "react-redux"
 
 function BottomPanel({ projectId, onClose }) {
+  const {currentProject} = useSelector(state=>state.project)
+  projectId = currentProject?._id
+  const userId = currentProject?.owner
   return (
     <motion.div 
         initial={{ height: 0, opacity: 0 }}
@@ -26,6 +31,10 @@ function BottomPanel({ projectId, onClose }) {
           <X size={14}/>
         </button>
 
+      </div>
+
+      <div className="min-h-0 flex-1">
+        <Terminal projectId={projectId} userId={userId}/>
       </div>
 
     </motion.div>

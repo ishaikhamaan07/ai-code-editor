@@ -140,6 +140,7 @@ io.on("connection",(socket)=>{
 
     socket.on("terminal:init",async ({projectId, userId, cols=80,rows=30 }) => {
         try {
+            console.log("terminal.initialized")
             projectId = String(projectId)
             userId = String(userId)
 

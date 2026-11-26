@@ -103,8 +103,8 @@ export const addCredits = async(req,res) => {
         return res.status(401).json({message: "user not found"})
       }
 
-      user.credits=(user.credits || 0) + credits
-      user.save()
+      user.credits=(user.credits || 0) + Number(credits)
+      await user.save()
       const sessionId = await redis.get(`user-session-${userId}`)
       await redis.set(`session-${sessionId}`,JSON.stringify({
         name:user.name,

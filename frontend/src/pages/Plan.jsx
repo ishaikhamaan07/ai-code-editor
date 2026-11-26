@@ -1,6 +1,7 @@
 import { ArrowLeft, Check, Crown, Sparkles, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
+import { createPayment, verifyPayment } from "../features/payment";
 
 const plans = [
     {
@@ -66,6 +67,34 @@ const plans = [
 
 function Plan() {
   const navigate = useNavigate()
+  
+  const handlePayment = async (plan) => {
+    try {
+        if(plan.key == "free" || plan.current)return;
+        const data = await createPayment(plan.key)
+        console.log(data)
+        const options = {
+            key:data.key_id,
+            amount:data.order.amount,
+            currency:data.order.currency || "INR",
+            name:"NexusCode",
+            description:`Plan ${plan.name}`,
+            order_id:data.order.id,
+            handler:async (response) => {
+                const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = response
+                const data = await verifyPayment({razorpay_order_id, razorpay_payment_id, razorpay_signature})
+                console.log(data)
+            },
+            theme: {
+                color: "#4f46e5"
+            },
+        }
+        const razorpay = new window.Razorpay(options)
+        razorpay.open({})
+    } catch (error) {
+        console.log(error)
+    }
+  }
   return (
     <div className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900 dark:bg-[#07070c] dark:text-white">
         <div className="pointer-events-none fixed left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-indigo-500/[0.08] blur-[140px]"/>
@@ -155,7 +184,7 @@ function Plan() {
                                 {plan.credits}
                         </div>
                         <button 
-                            
+                            onClick={()=> handlePayment(plan)}
                             className={`
                                 mt-5 w-full rounded-lg py-2.5 text-xs font-semibold transition
                                     ${plan.current
